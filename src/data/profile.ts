@@ -46,7 +46,9 @@ export const projects: Project[] = [
     problem: 'My first AI coding project: a clinical calculation I know well, turned into a tool.',
     built: 'Weight-based adult parenteral nutrition calculator with GIR, osmolarity and electrolyte checks.',
     stack: ['Next.js', 'TypeScript', 'shadcn/ui', 'Clerk'],
-    status: 'private',
+    live: 'https://tpn-calc.vercel.app',
+    status: 'live',
+    image: '/projects/tpn-calc.jpg',
   },
 ];
 
