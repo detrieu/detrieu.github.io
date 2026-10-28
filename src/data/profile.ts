@@ -10,7 +10,7 @@ export const profile = {
     github: 'https://github.com/detrieu',
     substack: 'https://desmondtrieu.substack.com',
   },
-  cvPdf: '/desmond-trieu-cv.pdf' as string | null,
+  cvPdf: '/Desmond-Trieu-Resume.pdf' as string | null,
 };
 
 export type Project = {
