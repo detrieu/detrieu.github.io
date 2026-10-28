@@ -156,7 +156,17 @@ const heroStart = profile.boot.length + 1;
           <h2 class="font-serif text-4xl sm:text-5xl">Writing</h2>
           <a href={profile.links.substack} class="text-sm underline decoration-line underline-offset-4 hover:decoration-accent">The Lag and Pulse ↗</a>
         </div>
-        <p class="mt-3 max-w-xl text-muted">Lag is travel and points. Pulse is pharmacy and health policy.</p>
+        <p class="mt-3 max-w-2xl text-muted">The two topics I'm insanely passionate about, and the duality in the name says it all.</p>
+        <dl class="mt-6 grid gap-4 sm:grid-cols-2">
+          <div class="rounded-2xl border border-line bg-card p-5">
+            <dt class="font-mono text-xs uppercase tracking-wider text-accent">The Lag</dt>
+            <dd class="mt-2">The jet lag feeling of always chasing the next award booking or last-minute redemption.</dd>
+          </div>
+          <div class="rounded-2xl border border-line bg-card p-5">
+            <dt class="font-mono text-xs uppercase tracking-wider text-accent">The Pulse</dt>
+            <dd class="mt-2">Healthcare in a heartbeat, keeping a finger on the heartbeat of an industry that never stops moving.</dd>
+          </div>
+        </dl>
         <ul class="mt-8 divide-y divide-line border-y border-line">
           {latest.map((post) => (
             <li>
