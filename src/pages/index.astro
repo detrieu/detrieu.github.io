@@ -1,0 +1,193 @@
+---
+import '../styles/global.css';
+import { profile, projects, experience, now } from '../data/profile';
+import posts from '../data/posts.json';
+
+const latest = posts.slice(0, 5);
+const fmt = (d: string) =>
+  new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+const heroStart = profile.boot.length + 1;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Desmond Trieu</title>
+    <meta name="description" content={profile.intro} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+  </head>
+  <body class="min-h-screen">
+    <header class="sticky top-0 z-10 border-b border-line bg-paper/85 backdrop-blur">
+      <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
+        <a href="#top" class="font-mono text-sm text-muted hover:text-ink">{profile.handle}:<span class="text-accent">~</span></a>
+        <ul class="flex gap-4 text-sm sm:gap-6">
+          <li><a class="hover:text-accent" href="#projects">Projects</a></li>
+          <li><a class="hover:text-accent" href="#work">Work</a></li>
+          <li><a class="hover:text-accent" href="#writing">Writing</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="top" class="mx-auto max-w-5xl px-4 sm:px-6">
+      <!-- Hero -->
+      <section id="hero" class="flex min-h-[min(78vh,760px)] flex-col justify-center py-16">
+        <div class="font-mono text-sm leading-7 text-muted" aria-hidden="true">
+          {profile.boot.map((line, i) => (
+            <p class="boot-line" style={`--i:${i}`}>
+              {i === 0 ? <><span class="text-accent">$</span> {line}</> : <>&gt; {line}</>}
+            </p>
+          ))}
+        </div>
+        <h1
+          class="hero-reveal mt-8 font-serif text-6xl leading-[0.95] tracking-tight sm:text-8xl"
+          style={`--i:${heroStart}`}
+        >
+          {profile.name}
+        </h1>
+        <p class="hero-reveal mt-6 max-w-xl text-lg text-muted sm:text-xl" style={`--i:${heroStart + 1}`}>
+          {profile.intro}
+        </p>
+        <div class="hero-reveal mt-8 flex flex-wrap gap-3 text-sm" style={`--i:${heroStart + 2}`}>
+          <a href="#projects" class="rounded-full bg-ink px-5 py-2.5 text-paper hover:bg-accent">See projects</a>
+          {profile.cvPdf && (
+            <a href={profile.cvPdf} class="rounded-full border border-line px-5 py-2.5 hover:border-accent">Download CV</a>
+          )}
+          <a href={profile.links.linkedin} class="rounded-full border border-line px-5 py-2.5 hover:border-accent">LinkedIn</a>
+        </div>
+        <button id="skip" class="mt-10 self-start font-mono text-xs text-muted hover:text-ink">skip intro →</button>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects" class="scroll-mt-20 border-t border-line py-20">
+        <p class="font-mono text-sm text-muted"><span class="text-accent">$</span> ls projects/</p>
+        <h2 class="mt-2 font-serif text-4xl sm:text-5xl">Projects</h2>
+        <div class="mt-10 grid gap-6 md:grid-cols-2">
+          {projects.map((p) => (
+            <article class="flex flex-col overflow-hidden rounded-2xl border border-line bg-card">
+              <div class="aspect-[16/10] border-b border-line bg-paper">
+                {p.image ? (
+                  <img src={p.image} alt={`${p.name} screenshot`} class="h-full w-full object-cover object-top" loading="lazy" />
+                ) : (
+                  <div class="flex h-full items-center justify-center font-mono text-sm text-muted">{p.slug}/</div>
+                )}
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <div class="flex items-baseline justify-between gap-4">
+                  <h3 class="font-serif text-3xl">{p.name}</h3>
+                  <span class="font-mono text-xs text-muted">[{p.status}]</span>
+                </div>
+                <p class="mt-1 text-muted">{p.tagline}</p>
+                <dl class="mt-5 space-y-3 text-sm">
+                  <div><dt class="font-mono text-xs uppercase tracking-wider text-accent">Problem</dt><dd class="mt-1">{p.problem}</dd></div>
+                  <div><dt class="font-mono text-xs uppercase tracking-wider text-accent">Built</dt><dd class="mt-1">{p.built}</dd></div>
+                </dl>
+                <ul class="mt-5 flex flex-wrap gap-2">
+                  {p.stack.map((s) => <li class="rounded-full border border-line px-2.5 py-0.5 font-mono text-xs text-muted">{s}</li>)}
+                </ul>
+                {(p.live || p.source) && (
+                  <div class="mt-auto flex gap-5 pt-6 text-sm">
+                    {p.live && <a href={p.live} class="underline decoration-line underline-offset-4 hover:decoration-accent">Visit site ↗</a>}
+                    {p.source && <a href={p.source} class="underline decoration-line underline-offset-4 hover:decoration-accent">Source ↗</a>}
+                  </div>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- Work -->
+      <section id="work" class="scroll-mt-20 border-t border-line py-20">
+        <p class="font-mono text-sm text-muted"><span class="text-accent">$</span> git log --oneline career</p>
+        <h2 class="mt-2 font-serif text-4xl sm:text-5xl">Work</h2>
+        <ol class="mt-10 border-l border-line">
+          {experience.map((e, i) => (
+            <li class="relative pb-10 pl-8 last:pb-0">
+              <span class={`absolute -left-[5px] top-2 h-[9px] w-[9px] rounded-full ${i === 0 ? 'bg-accent' : 'bg-line'}`}></span>
+              <p class="font-mono text-xs text-muted">
+                <span class="text-accent">{e.hash}</span>
+                {i === 0 && <span class="ml-2 rounded bg-accent/15 px-1.5 py-0.5 text-accent">HEAD → main</span>}
+                <span class="ml-2">{e.date}</span>
+              </p>
+              <h3 class="mt-1 text-lg font-medium">{e.role} <span class="text-muted">· {e.org}</span></h3>
+              {e.note && <p class="mt-1 text-muted">{e.note}</p>}
+            </li>
+          ))}
+        </ol>
+        {profile.cvPdf && (
+          <a href={profile.cvPdf} class="mt-10 inline-block rounded-full border border-line px-5 py-2.5 text-sm hover:border-accent">Download full CV (PDF)</a>
+        )}
+      </section>
+
+      <!-- Now -->
+      <section id="now" class="border-t border-line py-20">
+        <p class="font-mono text-sm text-muted"><span class="text-accent">$</span> ps aux | grep desmond</p>
+        <h2 class="mt-2 font-serif text-4xl sm:text-5xl">Now</h2>
+        <div class="mt-8 overflow-x-auto rounded-2xl border border-line bg-card p-5 font-mono text-sm">
+          <table class="w-full min-w-[420px] text-left">
+            <thead class="text-xs text-muted">
+              <tr><th class="pb-3 font-normal">PID</th><th class="pb-3 font-normal">PROCESS</th><th class="pb-3 font-normal">STATUS</th><th class="pb-3 text-right font-normal">CPU</th></tr>
+            </thead>
+            <tbody>
+              {now.map((n) => (
+                <tr class="border-t border-line">
+                  <td class="py-2.5 text-muted">{n.pid}</td>
+                  <td class="py-2.5">{n.process}</td>
+                  <td class="py-2.5 text-accent">{n.status}</td>
+                  <td class="py-2.5 text-right text-muted">{n.cpu}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Writing -->
+      <section id="writing" class="scroll-mt-20 border-t border-line py-20">
+        <p class="font-mono text-sm text-muted"><span class="text-accent">$</span> tail -5 the-lag-and-pulse.log</p>
+        <div class="mt-2 flex flex-wrap items-end justify-between gap-4">
+          <h2 class="font-serif text-4xl sm:text-5xl">Writing</h2>
+          <a href={profile.links.substack} class="text-sm underline decoration-line underline-offset-4 hover:decoration-accent">The Lag and Pulse ↗</a>
+        </div>
+        <p class="mt-3 max-w-xl text-muted">Lag is travel and points. Pulse is pharmacy and health policy.</p>
+        <ul class="mt-8 divide-y divide-line border-y border-line">
+          {latest.map((post) => (
+            <li>
+              <a href={post.url} class="group flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-6">
+                <span class="w-28 shrink-0 font-mono text-xs text-muted">{fmt(post.date)}</span>
+                <span class="flex-1 font-serif text-2xl leading-tight group-hover:text-accent">{post.title}</span>
+                <span class="font-mono text-xs uppercase tracking-wider text-accent">{post.strand}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+
+    <footer class="border-t border-line">
+      <div class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-10 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <p class="font-mono text-xs">{profile.handle}:~$ exit</p>
+        <ul class="flex gap-5">
+          <li><a class="hover:text-ink" href={profile.links.linkedin}>LinkedIn</a></li>
+          <li><a class="hover:text-ink" href={profile.links.github}>GitHub</a></li>
+          <li><a class="hover:text-ink" href={profile.links.substack}>Substack</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script>
+      // Click, tap or press any key to finish the intro right away.
+      const finish = () => document.documentElement.classList.add('skip');
+      document.getElementById('skip')?.addEventListener('click', finish);
+      window.addEventListener('keydown', finish, { once: true });
+      document.getElementById('hero')?.addEventListener('pointerdown', finish, { once: true });
+    </script>
+  </body>
+</html>

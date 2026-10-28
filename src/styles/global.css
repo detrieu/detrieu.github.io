@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-card: var(--card);
+}
+
+:root {
+  --paper: #faf7f2;
+  --card: #f3eee6;
+  --ink: #1c1917;
+  --muted: #6f6861;
+  --line: #e2dbd0;
+  --accent: #b4532a;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #151311;
+    --card: #1f1c19;
+    --ink: #ede8e1;
+    --muted: #a39b91;
+    --line: #2f2a25;
+    --accent: #e8a87c;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #151311;
+  --card: #1f1c19;
+  --ink: #ede8e1;
+  --muted: #a39b91;
+  --line: #2f2a25;
+  --accent: #e8a87c;
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* Boot sequence: each line fades in after the one before it. */
+.boot-line {
+  opacity: 0;
+  animation: boot-in 0.35s ease forwards;
+  animation-delay: calc(var(--i) * 0.45s);
+}
+.hero-reveal {
+  opacity: 0;
+  animation: boot-in 0.6s ease forwards;
+  animation-delay: calc(var(--i) * 0.45s);
+}
+.skip .boot-line,
+.skip .hero-reveal {
+  animation: none;
+  opacity: 1;
+}
+.cursor::after {
+  content: "\2588";
+  margin-left: 0.15em;
+  animation: blink 1s steps(1) infinite;
+  color: var(--accent);
+}
+
+@keyframes boot-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .boot-line, .hero-reveal { animation: none; opacity: 1; }
+  .cursor::after { animation: none; }
+}
